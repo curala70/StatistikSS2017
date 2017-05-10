@@ -1,9 +1,9 @@
-# Definiere Wahrscheinlichkeitsvektor mit Elementen 0 und 1
-v = c(0,1)
+# Definiere Wahrscheinlichkeitsvektor mit Elementen -1 und 1
+v = c(-1,1)
 
-# Definiere Wahrscheinlichkeitsfunktion prob
-prob <- function (p) {
-  # Generiere aus v mit W'keit 1-p eine 0 und mit W'keit p eine 1
+# Definiere Wahrscheinlichkeitsfunktion wurf
+wurf <- function (p) {
+  # Generiere aus v mit W'keit 1-p eine -1 und mit W'keit p eine 1
   sample(v,1,prob=c(1-p,p))
 }
 
@@ -13,9 +13,9 @@ prob <- function (p) {
 strategie1 <- function (k0,k,p) {
   # Solange Endkapital nicht erreicht oder Kapital verbraucht
   while (0<k0 && k0<k) {
-    # Ich setze 1 meines aktuellen Kapitals
-    # und bekomme mit Wahrscheinlichkeit p=a/b 2 zu meinem jetzigen Kapital dazu
-    k0 = k0 - 1 + 2*prob(p)*1
+    # Ich setze 1
+    # und bekomme mit Wahrscheinlichkeit p das gesetzte Kapital als Gewinn
+    k0 = k0 + wurf(p) * 1
   }
   # gib 1 aus, falls k erreicht wurde, sonst 0
   if (k0 >= k) 1
@@ -24,9 +24,9 @@ strategie1 <- function (k0,k,p) {
 
 strategie2 <- function (k0,k,p) {
   while (0<k0 && k0<k) {
-    # Ich setze alles
-    # und bekomme mit Wahrscheinlichkeit p=a/b das doppelte Kapital zurück
-    k0 = prob(p)*2*k0
+    # Ich setze alles (also k0)
+    # und bekomme mit Wahrscheinlichkeit p das gesetzte Kapital als Gewinn
+    k0 = k0 + wurf(p)*k0
   }
   # gib 1 aus, falls k erreicht wurde, sonst 0
   if (k0 >= k) 1
@@ -36,8 +36,8 @@ strategie2 <- function (k0,k,p) {
 strategie3 <- function (k0,k,p) {
   while (0<k0 && k0<k) {
     # Ich setze die aufgerundete Hälfte meines aktuellen Kapitals
-    # und bekomme mit Wahrscheinlichkeit p=a/b das doppelte gesetzte Kapital zurück
-    k0 = k0 - ceiling(k0/2) + 2*prob(p)*ceiling(k0/2)
+    # und bekomme mit Wahrscheinlichkeit p das gesetzte Kapital als Gewinn
+    k0 = k0 + wurf(p)*ceiling(k0/2)
   }
   # gib 1 aus, falls k erreicht wurde, sonst 0
   if (k0 >= k) 1
@@ -47,8 +47,8 @@ strategie3 <- function (k0,k,p) {
 strategie4 <- function (k0,k,p) {
   while (0<k0 && k0<k) {
     # Ich setze das aufgerundete Formelergebnis meines aktuellen Kapitals
-    # und bekomme mit Wahrscheinlichkeit p=a/b das doppelte gesetzte Kapital zurück
-    k0 = k0 - ceiling((k-k0)/k*k0) + 2*prob(p)*ceiling((k-k0)/k*k0)
+    # und bekomme mit Wahrscheinlichkeit p das gesetzte Kapital als Gewinn
+    k0 = k0 + wurf(p)*ceiling((k-k0)/k*k0)
   }
   # gib 1 aus, falls k erreicht wurde, sonst 0
   if (k0 >= k) 1
