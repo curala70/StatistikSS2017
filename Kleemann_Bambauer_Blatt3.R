@@ -15,25 +15,46 @@ server <- function (u,k) {
 }
 
 # b) Simuliere 10000 mal
-S=replicate(10000,server(60000,225))
+NumOfSim=10000
+#Anzahl Server
+NumServer = 225
+#Anzahl User
+NumUser= 60000
+
+S=replicate(NumOfSim,server(NumUser, NumServer))
 # Erstelle Histogramm
-hist(S,main='Verteilung der Anzahl überlasteter Server
+h = hist(S,main='Verteilung der Anzahl überlasteter Server
      (von 225 bei 60000 Usern)',
      xlab='Überlastete Server',ylab='Häufigkeit',breaks=min(S):(max(S)+1)-0.5)
 
+
+plot(h,freq=FALSE, main = "Relative Häufigkeit überlasteter Server\n (von 225 bei 60000 Usern)", 
+     xlab='Überlastete Server',ylab='rel. Häufigkeit')
+
+
+
+
 #c)
 sim=character()
-# Für Serveranzahl von 220 bis 250...
-for (k in 220:250) {
-  # Simuliere 20 mal mit 60000 Usern
-  z = replicate(1000,server(60000,k))
+
+
+# x-Werte für Serveranzahl definieren
+# Hier für Serveranzahl von 220 bis 250...
+NumServer=c(220:250)
+#Anzahl der User, hier 6000
+NumUser = 60000
+#Anzahl der Widerholungen
+reps = 1000
+
+for (k in NumServer) {
+  # Simuliere reps mal mit NumUser Usern und verschiedenen Anzahlen an Servern.
+  z = replicate(reps,server(NumUser,k))
   # Zähle, wie oft es überlastete Server gab, teile durch 1000
-  # und speichere Ergebnis in Vektor sim
-  sim[k-219] <- sum(length(z[z>0]))/1000
+  # und speichere Ergebnis im Vektor sim
+  sim[k-min(NumServer)+1] <- sum(length(z[z>0]))/reps
 }
-# x-Werte definieren
-x=c(220:250)
-plot(x,sim,main='Überlastete Server bei 60000 Usern
+
+plot(NumServer,sim,main='Überlastete Server bei 60000 Usern
      in Abhängigkeit zur Gesamtanzahl Server',
      ylab='W\'keit für überl. Server',
      xlab='Gesamtanzahl Server')
