@@ -1,17 +1,18 @@
 # a)
-
-lot <- function(lot) {
-    alpha = runif(1, min=(-pi/2), max=(pi/2))
-    x = lot * tan(alpha)
-    return (x)
+# change lot(l) to take number of simulations as well - takes too long otherwise
+# Jan approved!
+lot <- function(lot, n) {
+    alpha = runif(n, min=(-pi/2), max=(pi/2))
+    xs = lot * tan(alpha)
+    return (xs)
 }
 
 # b)
-results = c()
-for (i in 1:10^3) {
-    results[i]=lot(0.5)
-}
+# simulate 10^6 times with a lot of length 0.5
+results=lot(0.5, 10^6)
+# cut off all results with absolute value >10
 results = results[abs(results)<=10]
+# plot histogram
 hist(results,
      breaks=200,
      main="Aufgabe 2",
