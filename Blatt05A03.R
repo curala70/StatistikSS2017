@@ -11,7 +11,8 @@ lot <- function(lot, n) {
 # simulate 10^6 times with a lot of length 0.5
 results=lot(0.5, 10^6)
 # cut off all results with absolute value >10
-results = results[abs(results)<=10]
+# Vorschlag Lucas: Hier nochmal durch 0.5 teilen, dann gibt's mehr zu bestaunen...
+results = results[abs(results)<=10] / 0.5
 # plot histogram
 hist(results,
      breaks=200,
