@@ -30,7 +30,7 @@ plot(x, f, col="red", type = "l",
      xlab = "x-Werte",
      ylab = "y-Werte")
 # add line of theoretical distribution to plot
-lines(x, exp(-(1/2)*x), col="blue", type = "l")
+lines(x, 1-exp(-(1/2)*x), col="blue", type = "l")
 # add legend to plot
 legend("right",
        c("Theoretische Verteilungsfunktion", "Empirische Verteilungsfunktion"),
