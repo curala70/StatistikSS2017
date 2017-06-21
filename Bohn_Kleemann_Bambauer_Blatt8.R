@@ -2,9 +2,9 @@ mk <- function(s0,m1,m2,p1,p2,n) {
   x = rbinom(n,m1,p1)
   y = rbinom(n,m2,p2)
   s = c()
-  s[1] = max(s0 + x[0] - y[0],0)
-  for (i in 2:n) {
-    s[i] = max(s[i-1] + x[i-1] - y[i-1],0)
+  s[1] = s0
+  for (i in 1:n) {
+    s[i+1] = max(s[i] + x[i] - y[i],0)
   }
   s
 }
@@ -22,6 +22,7 @@ hist(s100, main=paste("Mittelwert: ",m100))
 hist(s10, main=paste("Mittelwert: ",m10))
 hist(s5, main=paste("Mittelwert: ",m5))
 
+
 mw <- function(x) {
   v = c()
   sumx = 0
@@ -34,7 +35,8 @@ mw <- function(x) {
 
 par(mfrow=c(1,1))
 pfad = mk(25,5,6,0.6,0.6,1500)
-v = mw(s)
+v = mw(pfad)
 plot(v, col='blue', type="s")
 lines(pfad, col='red')
 abline(h=m1000, col='green')
+
